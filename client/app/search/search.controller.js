@@ -162,8 +162,14 @@ angular.module('digApp')
     $scope.toggleImageSearchEnabled = function(searchUrl) {
         imageSearchService.setImageSearchEnabled(searchUrl, !imageSearchService.isImageSearchEnabled(searchUrl));
         $scope.displayImageBreadcrumb = !$scope.displayImageBreadcrumb;
+    };
 
+    $scope.isImageSearchEnabled = function(searchUrl) {
+        return imageSearchService.isImageSearchEnabled(searchUrl);
+    };
 
+    $scope.getImageSearchFilter = function(searchUrl) {
+        return imageSearchService.getImageSearchFilter(searchUrl);
     };
 
     $scope.clearSearch = function() {
@@ -181,13 +187,33 @@ angular.module('digApp')
         return imageSearchService.getActiveImageSearch();
     };
 
+    $scope.getImageSearchResults = function() {
+        return imageSearchService.getImageSearchResults();
+    };
+
+    $scope.getImageSearchResultsUrls = function() {
+        return Object.keys(imageSearchService.getImageSearchResults());
+    };
+
     $scope.clearActiveImageSearch = function() {
         $scope.searchConfig.filterByImage = false;
         imageSearchService.clearActiveImageSearch();
     };
 
+    $scope.clearImageSearch = function(imgUrl) {
+        if (imgUrl == imageSearchService.getActiveImageSearch().url) {
+            alert("Cleared active image search");
+            this.clearActiveImageSearch(imgUrl);
+            //imageSearchService.clearImageSearch(imgUrl);
+
+        }
+        else {
+        imageSearchService.clearImageSearch(imgUrl);
+    }
+    };
+
     $scope.imageSearch = function(imgUrl) {
-	    $scope.displayImageBreadcrumb = true;
+        $scope.displayImageBreadcrumb = true;
         imageSearchService.imageSearch(imgUrl);
     };
 
