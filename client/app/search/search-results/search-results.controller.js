@@ -92,7 +92,7 @@ angular.module('digApp')
 
         /* jshint camelcase:false */
         // If we have an active image search and multiple image parts, check for a matching image.
-        if (imageSearchService.getActiveImageSearch() && imageSearchService.getActiveImageSearch().enabled &&
+        if (imageSearchService.getActivestImageSearch() && imageSearchService.getActiveImageSearch().enabled &&
             doc._source.hasFeatureCollection.similar_images_feature &&
             doc._source.hasImagePart.length > 0) {
             currentSearch = imageSearchService.getActiveImageSearch();

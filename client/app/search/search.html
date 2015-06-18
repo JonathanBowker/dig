@@ -32,13 +32,14 @@
               </div>
             </div>
           </div>
-          <div class="row breadcrumb-box">
-	          <span ng-if="displayImageBreadcrumb">
+        <span ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
+	          <span ng-if="getSpecificImageSearchResults(displayImageUrl).enabled">
               <span class="search-facet">
-                <img style="float:left;" blurred-image ng-src="{{getActiveImageSearch().url}}" class="image-thumb-breadbox">
-                <i style="float:right;"class="fa fa-times-circle" ng-click="toggleImageSearchEnabled(getActiveyImageSearch().url)"></i>
+                <img style="float:left;" blurred-image ng-src="{{displayImageUrl}}" class="image-thumb-breadbox">
+                <i style="float:right;"class="fa fa-times-circle" ng-click="toggleImageSearchEnabled(displayImageUrl)"></i>
               </span>
-            </span>
+          </span>
+        </span>
             <span ng-if="filterStates.withImagesOnly">
               <span class="search-facet">
                 With Images Only <i class="fa fa-times-circle" ng-click="filterStates.withImagesOnly = !filterStates.withImagesOnly"></i>

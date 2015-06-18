@@ -12,32 +12,34 @@
     <text-filter ng-repeat="filter in facets.euiFilters" filter-title="{{filter.title}}"
       filter-field="{{filter.field}}" indexvm="indexVM" ejs="ejs" filters="filters" loading="loading" filter-states="filterStates.textFilters">
     </text-filter>
-            <div ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
 
     <div ng-if="facets.simFilter" class="form-group" ng-show="getActiveImageSearch()">
       <h5><i class="fa fa-chevron-down fa-fw"></i> {{facets.simFilter.title}} <a href="#" class="pull-right" title="Search values"><i class="fa fa-search"></i></a></h5>
      <!-- <div ng-repeat="displayImage in getImageSearchResultsUrls()">
         {{displayImage}}
      </div>-->
+    <div ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
 
-      <div>
         <div class="checkbox image-search-filter">
           <label>
           Enabled:{{isImageSearchEnabled(displayImageUrl)}},
-          Active:{{getActiveImageSearch().enabled}}
-            <input type="checkbox" ng-model="searchConfig.filterByImage"
-              ng-checked="isImageSearchEnabled(displayImageUrl)"
-              eui-filter="ejs.TermFilter(facets.simFilter.field, displayImageUrl)"
-              eui-enabled="searchConfig.filterByImage" 
-              ng-change="toggleImageSearchEnabled(displayImageUrl)"><!-- changes enabled field -->
-     
-      
+          Active:{{getActiveImageSearch().enabled}},
+          SearchConfig: {{ searchConfig.filterByImage  }}
+
+            <input type="checkbox" 
+
+              ng-model="getSpecificImageSearchResults(displayImageUrl).enabled"
+              
+              eui-filter="ejs.TermsFilter(facets.simFilter.field, TestFunction(displayImageUrl))"
+              eui-enabled="searchConfig.filterByImage"
+              ng-change="toggleActiveImageSearch(displayImageUrl)"
+              >
+               
           </label>
           <img blurred-image ng-src="{{displayImageUrl}}" class="image-thumb">
           <a href="#" ng-click="clearImageSearch(displayImageUrl)" class="text-danger">
             <i class="fa fa-times-circle pull-right"></i>
           </a>
-        </div>
         </div>
       </div>
     </div>
