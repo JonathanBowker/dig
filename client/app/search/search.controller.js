@@ -197,44 +197,34 @@ angular.module('digApp')
 
     $scope.toggleActiveImageSearch = function(imgUrl) {
 
-        console.log(imageSearchService.isImageSearchEnabled(imgUrl));
-        console.log(imgUrl);
-        console.log(imageSearchService.getActiveImageSearch().url);
+
         if (imageSearchService.isImageSearchEnabled(imgUrl) == true && imageSearchService.getActiveImageSearch().url != imgUrl) {//if now enabled and not active
-        console.log("Went through 1");
-        imageSearchService.toggleActiveImageSearch(imgUrl, true);//set to active
-        $scope.searchConfig.filterByImage = true;//ensure search is working
+            imageSearchService.toggleActiveImageSearch(imgUrl, true);//set to active
+            $scope.searchConfig.filterByImage = true;//ensure search is working
         }
         else if (imageSearchService.isImageSearchEnabled(imgUrl) != true && imageSearchService.getActiveImageSearch().url == imgUrl) {//if unenabled and active
-        console.log("Went through 2");
-        //if there are any other enabled filters, pass in that URl and make THAT the active search.
-            if (Object.keys(imageSearchService.getImageSearchResults()).length > 1) {//If there are other filters
-                for (var tempUrl in Object.keys(imageSearchService.getImageSearchResults())) {//look for them
-                    if (imageSearchService.getImageSearchResults(tempUrl).enabled == true) {//if any are enabled
-                        imageSearchService.toggleActiveImageSearch(tempUrl, true);//make the other one the active search.
-
-                    }//end if
-                }//end for
-            }//end if length ==1 
-            else {//if there are no other filters and we are disabling the only one
-                console.log("No others, set as false");
+                var a = Object.keys(imageSearchService.getImageSearchResults());
+                var Urls = a.slice(0);
+                if (Object.keys(imageSearchService.getImageSearchResults()).length > 1) {//If there are other filters
+                    for (var x in Urls) {//look for them              
+                        if (imageSearchService.isImageSearchEnabled(Urls[x]) == true) {//if any are enabled
+                            imageSearchService.toggleActiveImageSearch(Urls[x], true);//make the other one the active search.
+                            console.log("New ActiveImagSearch set");
+                        }
+                    }
+                }
+                else {//if there are no other filters and we are disabling the only one
                 imageSearchService.setImageSearchEnabled(imgUrl, false);//set enable to false
             }//end else
         }//end else if
         else if (imageSearchService.isImageSearchEnabled(imgUrl) != true && imageSearchService.getActiveImageSearch().url != imgUrl) {//if unenabled and inactive
-        console.log("went through 3");
             imageSearchService.setImageSearchEnabled(imgUrl, false);//if we are unenabling one that is not the active search.  Simply unenable it.
         }
-                else if (imageSearchService.isImageSearchEnabled(imgUrl) == true && imageSearchService.getActiveImageSearch().url == imgUrl) {//if enabled and active 
-                    //(will happen when we unenable a single active and then re-enable it; we need one filter active to maintain the sidebar filters, so we leave it as active.
-        console.log("went through 4");
-            imageSearchService.setImageSearchEnabled(imgUrl, true);//if we are unenabling one that is not the active search.  Simply unenable it.
+        else if (imageSearchService.isImageSearchEnabled(imgUrl) == true && imageSearchService.getActiveImageSearch().url == imgUrl) {//if enabled and active 
+            imageSearchService.setImageSearchEnabled(imgUrl, true);//if we are enabling one that is now the active search.  
         }
-        else{
-        console.log("went through 5");
-        //otherwise set activeSearch as null...there are no other searches.
-        //$scope.searchConfig.filterByImage = false;
-        imageSearchService.clearActiveImageSearch();
+        else{   
+            imageSearchService.clearActiveImageSearch();
         }//end else
     };
 
@@ -257,29 +247,23 @@ angular.module('digApp')
     };
 
     $scope.clearImageSearch = function(imgUrl) {
-        if (imgUrl == imageSearchService.getActiveImageSearch().url && imageSearchService.getImageSearchResults().length > 1) {// If we're deleting the active filter and there are other filters
-            console.log("case1");
-                for (var tempUrl in imageSearchService.getImageSearchResults()) {//for the remaining filters
-                    if (imageSearchService.getSpecificImageSearchResults(tempUrl).url !=imgUrl) {//find one that is not the active
-                        activeImageSearch = imageSearchResults[tempUrl];//make that one active
-                        delete imageSearchResults[imgUrl];//and delete the old one
-                    }//end if
-                }//end for
+        if (imgUrl == imageSearchService.getActiveImageSearch().url && imageSearchService.getImageSearchResultsLength() > 1) {// If we're deleting the active filter and there are other filters
+            imageSearchService.clearImageSearch(imgUrl, 1);
         }//end if
-        else if (imgUrl == imageSearchService.getActiveImageSearch().url) {// if we're deleting the active filter and there are no other filters
-                                console.log("case2");
+        else if (imgUrl == imageSearchService.getActiveImageSearch().url && imageSearchService.getImageSearchResultsLength() == 1) {// if we're deleting the active filter and there are no other filters
+            //$scope.searchConfig.filterByImage = false;//ensure search is working
+            //imageSearchService.clearActiveImageSearch();
+            //this.toggleActiveImageSearch(imgUrl) 
+            imageSearchService.clearImageSearch(imgUrl, 2);
+            $scope.searchConfig.filterByImage = false;//ensure search is working
 
-                    $scope.searchConfig.filterByImage = false;
-                    imageSearchService.clearActiveImageSearch(imgUrl);    
         }
         else {//if we are not deleting the active
-                        console.log("case3");
-
-            imageSearchService.clearImageSearch(imgUrl);
+            imageSearchService.clearImageSearch(imgUrl, 3);
         }
     };
 
-    $scope.toggleImageFilter = function(imgUrl) { 
+    $scope.toggleImageFilter = function(imgUrl) {
         imageSearchService.toggleImageFilter(imgUrl);
 
     };
