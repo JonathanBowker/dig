@@ -15,7 +15,6 @@ angular.module('digApp')
     $scope.euiConfigs = euiConfigs;
     $scope.facets = euiConfigs.facets;
     $scope.notificationHasRun = true;
-    $scope.displayImageBreadcrumb = false;
 
 
     $scope.saveQuery = function() {
@@ -208,6 +207,7 @@ angular.module('digApp')
                         if (imageSearchService.isImageSearchEnabled(Urls[x]) == true) {//if any are enabled
                             imageSearchService.toggleActiveImageSearch(Urls[x], true);//make the other one the active search.
                             console.log("New ActiveImagSearch set");
+                            break;
                         }
                     }
                 }
@@ -254,22 +254,6 @@ angular.module('digApp')
             this.toggleActiveImageSearch(imgUrl);
             imageSearchService.setImageSearchEnabled(imgUrl, false);
             imageSearchService.clearImageSearch(imgUrl, 2);
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
-            $scope.searchConfig.filterByImage = false;//ensure search is working
             $scope.searchConfig.filterByImage = false;//ensure search is working
 
         }
