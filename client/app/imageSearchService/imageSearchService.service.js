@@ -68,12 +68,12 @@ angular.module('digApp')
 
 
     service.clearImageSearch = function(imageUrl, switchVal) {
-    	switch(switchVal) {
 
-    		case 1:// If we're deleting the active filter and there are other filters
-    			console.log("case1");
+if (switchVal ==1) {
+
+      			console.log("case1");
                 imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-
+}
                 /**var Urls = Object.keys(imageSearchResults);
 	    		for (var x in Urls) {//for the remaining filters
 	    			if (Urls[x] !=imageUrl) {//find one that is not the active
@@ -84,18 +84,17 @@ angular.module('digApp')
 	    			}//end if
 	    		}//end for*/
 
-    			break;
-    		case 2:// if we're deleting the active filter and there are no other filters
+if (switchVal ==2) {
     		    console.log("case2");
-                activeImageSearch = null;
+                
+                //activeImageSearch = null;
                 //imageSearchResults = [];
                 //imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-    			//activeImageSearch = null;
                 //imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-                //imageSearchResults = [];
+                imageSearchResults = [];
 
-    			break;    	
-	    	case 3://if we are not deleting the active
+}
+if (switchVal ==3) {
 	    	    console.log("case3");
 	        	delete imageSearchResults[imageUrl];//delete it
     	
