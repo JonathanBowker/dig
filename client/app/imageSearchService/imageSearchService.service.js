@@ -12,6 +12,7 @@ angular.module('digApp')
             url: imgUrl,
             status: 'searching',
             enabled: false,
+            displayed: false,
         }
 
         // TODO: remove this if we switch to async image searches.
@@ -22,6 +23,8 @@ angular.module('digApp')
         .success(function() {
             imageSearchResults[imgUrl].status = 'success';
             imageSearchResults[imgUrl].enabled = true;
+            imageSearchResults[imgUrl].displayed = true;
+
         })
         .error(function(data) {
             imageSearchResults[imgUrl].status = 'error';
@@ -73,6 +76,8 @@ if (switchVal ==1) {
 
       			console.log("case1");
                 imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
+                        delete imageSearchResults[imageUrl];//delete it
+
 }
                 /**var Urls = Object.keys(imageSearchResults);
 	    		for (var x in Urls) {//for the remaining filters
@@ -87,11 +92,14 @@ if (switchVal ==1) {
 if (switchVal ==2) {
     		    console.log("case2");
                 
-                //activeImageSearch = null;
+                //imageSearchResults[imageUrl].status = false;
+        //imageSearchResults[imageUrl].enabled = false;        
+        delete imageSearchResults[imageUrl];//delete it
+        //activeImageSearch = null;               // delete imageSearchResults[imageUrl];
+               // activeImageSearch.status = false;
+                 //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
+                //imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
                 //imageSearchResults = [];
-                //imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-                //imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-                imageSearchResults = [];
 
 }
 if (switchVal ==3) {
@@ -120,6 +128,10 @@ if (switchVal ==3) {
     service.clearImageSearches = function() {
         activeImageSearch = null;
         imageSearchResults = [];
+    };
+
+    service.clearSpecificImageSearch = function(imageUrl) {
+        delete imageSearchResults[imageUrl];
     };
 
     return service;
