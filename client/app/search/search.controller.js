@@ -171,6 +171,10 @@ angular.module('digApp')
         imageSearchService.setImageSearchEnabled(searchUrl, !imageSearchService.isImageSearchEnabled(searchUrl));
     };
 
+    $scope.setImageSearchEnabled = function(searchUrl, flag) {
+        imageSearchService.setImageSearchEnabled(searchUrl, flag)
+    };
+
     $scope.isImageSearchEnabled = function(searchUrl) {
         return imageSearchService.isImageSearchEnabled(searchUrl);
     };
@@ -277,21 +281,26 @@ angular.module('digApp')
             console.log("Enabled: " + this.isImageSearchEnabled(imgUrl));
             console.log("Filter: " + $scope.searchConfig.filterByImage);
 
-            
+          //  this.clearActiveImageSearch();
+
             //imageSearchService.clearActiveImageSearch();
 //------------------------------------
-            //imageSearchService.setImageSearchEnabled(imgUrl, false);
+            //imageSearchService.clearSpecificImageSearch(imgUrl);
+
+           //imageSearchService.setImageSearchEnabled(imgUrl, false);
             //$scope.searchConfig.filterByImage = false;
-           //imageSearchService.clearImageSearch(imgUrl, 2);
-            imageSearchService.clearSpecificImageSearch(imgUrl);
+           imageSearchService.clearImageSearch(imgUrl, 2);
             //console.log("Results: " + imageSearchService.getSpecificImageSearchResults(imgUrl).url);
             //The object is deleted from imageSearchResults, but not from the filter....
             //imageSearchService.clearSpecificImageSearch(imgUrl);
 //------------------------------------
-            //imageSearchService.clearActiveImageSearch();
+        // $scope.searchConfig.filterByImage = false;
+            this.clearActiveImageSearch();
+
+        // imageSearchService.clearActiveImageSearch();
 
 
-            console.log("Enabled: " + this.isImageSearchEnabled(imgUrl));
+          //  console.log("Enabled: " + this.isImageSearchEnabled(imgUrl));
 
             //$scope.searchConfig.filterByImage = false;//ensure search is working
             console.log("Filter: " + $scope.searchConfig.filterByImage);
