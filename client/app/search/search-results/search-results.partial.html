@@ -18,20 +18,22 @@
        <!-- <div ng-repeat="displayImage in getImageSearchResultsUrls()">
           {{displayImage}}
        </div>-->
-      <div ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
 
-          <div class="checkbox image-search-filter">
+      <div ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
+              {{displayImageUrl}}
+
+                  <div class="checkbox image-search-filter">
             <label>
             Enabled:{{isImageSearchEnabled(displayImageUrl)}},
             Active:{{getActiveImageSearch().enabled}},
             SearchConfig: {{ searchConfig.filterByImage  }}
-
+ 
               <input type="checkbox" 
 
                 ng-model="getSpecificImageSearchResults(displayImageUrl).enabled"
                 
-                eui-filter="ejs.TermsFilter(facets.simFilter.field, TestFunction(displayImageUrl))"
-                eui-enabled="searchConfig.filterByImage"
+                eui-filter="ejs.TermsFilter(facets.simFilter.field, enableCheck(displayImageUrl))"
+                eui-enabled="searchConfig.filterByImage && getSpecificImageSearchResults(displayImageUrl).enabled"
                 ng-change="toggleActiveImageSearch(displayImageUrl)"
                 >
                  

@@ -58,6 +58,7 @@ angular.module('digApp')
 
     service.clearActiveImageSearch = function() {
         activeImageSearch = null;
+
     };
 
     service.checkImageSearch = function() {//for watch function that either turns filter on or off
@@ -73,39 +74,17 @@ angular.module('digApp')
     service.clearImageSearch = function(imageUrl, switchVal) {
 
 if (switchVal ==1) {
-
       			console.log("case1");
                 imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
                         delete imageSearchResults[imageUrl];//delete it
-
-}
-                /**var Urls = Object.keys(imageSearchResults);
-	    		for (var x in Urls) {//for the remaining filters
-	    			if (Urls[x] !=imageUrl) {//find one that is not the active
-                        console.log("set new ActiveImageSearch in clearImageSearch");
-	    				activeImageSearch = imageSearchResults[Urls[x]];//make that one active
-                        //imageSearchResults[imageUrl].enabled = false;
-	    				delete imageSearchResults[imageUrl];//and delete the old one
-	    			}//end if
-	    		}//end for*/
-
+                    }
 if (switchVal ==2) {
     		    console.log("case2");
-                
-                //imageSearchResults[imageUrl].status = false;
-        //imageSearchResults[imageUrl].enabled = false;        
-        delete imageSearchResults[imageUrl];//delete it
-        //activeImageSearch = null;               // delete imageSearchResults[imageUrl];
-               // activeImageSearch.status = false;
-                 //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-                //imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-                //imageSearchResults = [];
-
+                delete imageSearchResults[imageUrl];
 }
 if (switchVal ==3) {
 	    	    console.log("case3");
 	        	delete imageSearchResults[imageUrl];//delete it
-    	
    		}//end switch
     };
 
