@@ -4,8 +4,8 @@
 // by two $watch handlers.
 
 angular.module('digApp')
-.controller('SearchCtrl', ['$scope', '$state', '$http', '$modal', 'imageSearchService', 'euiSearchIndex', 'euiConfigs',
-    function($scope, $state, $http, $modal, imageSearchService, euiSearchIndex, euiConfigs) {
+.controller('SearchCtrl', ['$scope','$state', '$http', '$q', '$modal', 'imageSearchService', 'euiSearchIndex', 'euiConfigs',
+    function($scope, $state, $http, $q, $modal, imageSearchService, euiSearchIndex, euiConfigs) {
     $scope.loading = false;
     $scope.imagesimLoading = false;
     $scope.searchConfig = {};
@@ -163,7 +163,7 @@ angular.module('digApp')
             return searchUrl;
         }
         else {
-            return "";
+            return '';
         }
     };
 
@@ -172,7 +172,7 @@ angular.module('digApp')
     };
 
     $scope.setImageSearchEnabled = function(searchUrl, flag) {
-        imageSearchService.setImageSearchEnabled(searchUrl, flag)
+        imageSearchService.setImageSearchEnabled(searchUrl, flag);
     };
 
     $scope.isImageSearchEnabled = function(searchUrl) {
@@ -201,7 +201,6 @@ angular.module('digApp')
     $scope.toggleActiveImageSearch = function(imgUrl) {
         var  isEnabled = imageSearchService.isImageSearchEnabled(imgUrl);
         var getActive = imageSearchService.getActiveImageSearch();
-        console.log("toggleActiveImageSearch CALLED");
         if (isEnabled == true && getActive.url != imgUrl) {
             imageSearchService.toggleActiveImageSearch(imgUrl, true);
             $scope.searchConfig.filterByImage = true;
@@ -213,7 +212,6 @@ angular.module('digApp')
                     for (var x in Urls) {//look for them              
                         if (imageSearchService.isImageSearchEnabled(Urls[x]) == true) {
                             imageSearchService.toggleActiveImageSearch(Urls[x], true);
-                            console.log("New ActiveImagSearch set");
                             break;
                         }
                     }
@@ -258,58 +256,46 @@ angular.module('digApp')
 
         $scope.searchConfig.filterByImage = false;
         imageSearchService.clearActiveImageSearch();
-        //imageSearchService.clearImageSearches();
-
-
     };
+
 
     $scope.clearImageSearch = function(imgUrl) {
-                  console.log(imageSearchService.getImageSearchResultsLength());
 
-        if (imageSearchService.getImageSearchResultsLength() > 1) {// If we're deleting the active filter and there are other filters
-                       imageSearchService.clearActiveImageSearch();
+        if (imageSearchService.getImageSearchResultsLength() > 1) {
 
-            imageSearchService.setImageSearchEnabled(imgUrl, false);
-          console.log(imageSearchService.getImageSearchResultsLength());
-            imageSearchService.clearSpecificImageSearch(imgUrl);
-            //console.log("Results: " + imageSearchService.getSpecificImageSearchResults(imgUrl).url);
+            if (imgUrl == imageSearchService.getActiveImageSearch().url) {
+                imageSearchService.switchActive(imgUrl);
+            }
+            var promise = imageSearchService.enablePromise(imgUrl);
 
-            //imageSearchService.clearImageSearch(imgUrl, 1);
+                promise.then(function(value) {
+
+                   imageSearchService.clearSpecificImageSearch(imgUrl);
+
+                }, function(reason) {
+
+                });
+
         }//end if
-        else if (imgUrl == imageSearchService.getActiveImageSearch().url && imageSearchService.getImageSearchResultsLength() == 1) {// if we're deleting the active filter and there are no other filters
-            
-            console.log("Enabled: " + this.isImageSearchEnabled(imgUrl));
-            console.log("Filter: " + $scope.searchConfig.filterByImage);
 
-          //  this.clearActiveImageSearch();
+        else {//if length == 1
 
-            //imageSearchService.clearActiveImageSearch();
-//------------------------------------
-            //imageSearchService.clearSpecificImageSearch(imgUrl);
+            if (imgUrl == imageSearchService.getActiveImageSearch().url) {
+                var promise = imageSearchService.enablePromise(imgUrl);
+                promise.then(function(value) {
 
-           //imageSearchService.setImageSearchEnabled(imgUrl, false);
-            //$scope.searchConfig.filterByImage = false;
-           imageSearchService.clearImageSearch(imgUrl, 2);
-            //console.log("Results: " + imageSearchService.getSpecificImageSearchResults(imgUrl).url);
-            //The object is deleted from imageSearchResults, but not from the filter....
-            //imageSearchService.clearSpecificImageSearch(imgUrl);
-//------------------------------------
-        // $scope.searchConfig.filterByImage = false;
-            this.clearActiveImageSearch();
+                   imageSearchService.clearSpecificImageSearch(imgUrl);
 
-        // imageSearchService.clearActiveImageSearch();
+                }, function(reason) {
+                });
+            }//end if
+            else {//If not active
+                $scope.clearActiveImageSearch();
+            }//end else
 
+        }//end else
 
-          //  console.log("Enabled: " + this.isImageSearchEnabled(imgUrl));
-
-            //$scope.searchConfig.filterByImage = false;//ensure search is working
-            console.log("Filter: " + $scope.searchConfig.filterByImage);
-        }
-        //else {//if we are not deleting the active
-         //   imageSearchService.clearImageSearch(imgUrl, 3);
-        //}
-            console.log("Filter: " + $scope.searchConfig.filterByImage);
-    };
+    };//end clearImageSearch             
 
     $scope.toggleImageFilter = function(imgUrl) {
         imageSearchService.toggleImageFilter(imgUrl);
@@ -317,9 +303,13 @@ angular.module('digApp')
     };
 
     $scope.imageSearch = function(imgUrl) {
+        for (var x in $scope.deleteList) {
+            imageSearchService.clearSpecificImageSearch($scope.deleteList[x]);
+
+        }
+        $scope.deleteList = [];
         $scope.displayImageBreadcrumb = true;
         imageSearchService.imageSearch(imgUrl);
-        var temp = imageSearchService.checkImageSearch();
 
     };
 
@@ -378,8 +368,7 @@ angular.module('digApp')
                 if(newVal.status === 'searching') { 
                     $scope.imagesimLoading = true;
                 } else if(newVal.status === 'success' && newVal.enabled) {
-                    // If our latest img search was successful, re-issue our query and
-                    // enable our image filter.
+                    console.log("Watch triggered, set searchConfig.filterByImage to TRUE");
                     $scope.imagesimLoading = false;
 
                     $scope.searchConfig.filterByImage = true;

@@ -33,13 +33,13 @@
                 ng-model="getSpecificImageSearchResults(displayImageUrl).enabled"
                 
                 eui-filter="ejs.TermsFilter(facets.simFilter.field, enableCheck(displayImageUrl))"
-                eui-enabled="getSpecificImageSearchResults(displayImageUrl).enabled"
+                eui-enabled="searchConfig.filterByImage"
                 ng-change="toggleActiveImageSearch(displayImageUrl)"
                 >
                  
             </label>
             <img blurred-image ng-src="{{displayImageUrl}}" class="image-thumb">
-            <a href="#" ng-click="setImageSearchEnabled(displayImageUrl, false); clearImageSearch(displayImageUrl)" class="text-danger">
+            <a href="#" ng-click="clearImageSearch(displayImageUrl)" class="text-danger">
               <i class="fa fa-times-circle pull-right"></i>
             </a>
           </div>

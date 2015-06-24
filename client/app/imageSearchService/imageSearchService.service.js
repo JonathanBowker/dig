@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('digApp')
-  .service('imageSearchService', ['$http', 'simHost', function($http, simHost) {
+  .service('imageSearchService', ['$http', '$q', 'simHost', function($http, $q, simHost) {
     var service = {};
     var imageSearchResults = [];
-    var simFilters = [];
     var activeImageSearch = null;
 
     service.imageSearch = function(imgUrl) {
@@ -13,7 +12,7 @@ angular.module('digApp')
             status: 'searching',
             enabled: false,
             displayed: false,
-        }
+        };
 
         // TODO: remove this if we switch to async image searches.
                 
@@ -52,7 +51,7 @@ angular.module('digApp')
     	activeImageSearch = imageSearchResults[imageUrl];   
     	}//end if
     	if (!flag) {
-    	activeImageSearch = imageSearchResults[imageUrl];   
+    	activeImageSearch = !imageSearchResults[imageUrl];   
     	}//end else
     };
 
@@ -70,22 +69,31 @@ angular.module('digApp')
     	return false;
     };
 
+    service.enablePromise = function(imgUrl) {
+            
+            imageSearchResults[imgUrl].enabled = false;
+            console.log("Set to unenabled: " + imageSearchResults[imgUrl].enabled);
+            console.log("It went through enablePromise");
+                return $q(function(resolve, reject) {
+                                        setTimeout(function() {
+                    if (imageSearchResults[imgUrl].enabled == false) {
+                        resolve(true);
+                    }//end if
+                    else {
+                        reject(false);
+                    }//end else
+                    }, 0);
+                });
+            };//end service   
 
-    service.clearImageSearch = function(imageUrl, switchVal) {
+    service.switchActive = function(imgUrl) {
+        var Urls = Object.keys(imageSearchResults);
+        for (var x in Urls) {
+            if (Urls[x] != imageSearchResults[imgUrl].url) {
+                activeImageSearch = imageSearchResults[Urls[x]];
+            }
+        }
 
-if (switchVal ==1) {
-      			console.log("case1");
-                imageSearchResults[imageUrl].enabled = false; //Maybe run an imageSearch on null and then DELETE EVERYTHING?  
-                        delete imageSearchResults[imageUrl];//delete it
-                    }
-if (switchVal ==2) {
-    		    console.log("case2");
-                delete imageSearchResults[imageUrl];
-}
-if (switchVal ==3) {
-	    	    console.log("case3");
-	        	delete imageSearchResults[imageUrl];//delete it
-   		}//end switch
     };
 
     service.getImageSearchStatus = function(imageUrl) {
