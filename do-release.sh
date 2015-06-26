@@ -195,7 +195,12 @@ version() {
 	PUSH_TO_DOCKER=0
 	GIT_TAG=$(npm version prerelease)
     fi
-
+    
+    if [[ "$?" != 0 ]]; then
+	echo "Stale tag exists that needs to be removed"
+        cleanup 30
+    fi
+    
     if [[ "$FORCE_PUSH_TO_DOCKER" -eq 1 ]]; then
 	PUSH_TO_DOCKER=1
     fi
@@ -221,7 +226,7 @@ build() {
     cp -r ${CONFDIR} conf
     npm install
     grunt build
-    ${BUILD_DIR}/dig/package.sh $package_opts
+    ${BUILD_DIR}/dig/scripts/package.sh $package_opts
     cp dig_deploy.sh ${CURRENT_DIR}
     cd ${CURRENT_DIR}
     if [[ $UID != 0 ]]; then

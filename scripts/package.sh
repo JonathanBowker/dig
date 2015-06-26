@@ -1,6 +1,11 @@
 #!/bin/bash
 #set -x
 ## DEFAULTS
+
+# move up a directory if this script is called from scripts directory
+[[ $PWD =~ "scripts"$ ]] && cd ..
+
+
 DEFAULT_INSTALL_PATH=/usr/local/dig
 DEFAULT_CFGDIR=./conf
 DOCKER_PREFIX="digmemex/digapp"
@@ -63,8 +68,8 @@ push_docker() {
 	docker push $TAG
 	popd
 	pushd distnotify
-	docker build -t $TAG ./
-	docker push $TAG
+	docker build -t $NOTIFYTAG ./
+	docker push $NOTIFYTAG
 	popd
     fi
 }

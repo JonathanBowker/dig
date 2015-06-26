@@ -32,8 +32,10 @@
               </div>
             </div>
           </div>
-        <span ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
-	          <span ng-if="getSpecificImageSearchResults(displayImageUrl).enabled">
+
+          <div class="row breadcrumb-box">
+	          <span ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
+            <span ng-if="getSpecificImageSearchResults(displayImageUrl).enabled">
               <span class="search-facet">
                 <img style="float:left;" blurred-image ng-src="{{displayImageUrl}}" class="image-thumb-breadbox">
                 <i style="float:right;"class="fa fa-times-circle" ng-click="toggleImageSearchEnabled(displayImageUrl)"></i>
