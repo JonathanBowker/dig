@@ -153,4 +153,127 @@ describe('Service: imageSearchService', function () {
         expect(imageSearchService.isImageSearchEnabled(imgUrl)).toBe(true);
     });
 
+
+    it('should set the activeImageSearch to another filter', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+
+        imageSearchService.imageSearch(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://footwo');
+
+        imageSearchService.setActiveImageSearch(imgUrl);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+    });
+
+
+    // it('should resolve true if the enabled field is set to false', function() {
+    //     var imgUrl = 'http://foo';
+    //     var testFlag = false;
+    //     imageSearchService.imageSearch(imgUrl);
+
+    //        var promise = imageSearchService.enablePromise(imgUrl);
+
+    //             promise.then(function(value) {
+    //                testFlag = true;
+    //                console.log("WAS SWITCHED");
+
+    //             }, function(reason) {
+    //                console.log("WAS NOT SWITCHED");
+    //                                testFlag = true;
+
+    //             });
+    //     expect(testFlag).toBe(true);
+        
+    // });
+
+    it('should switch the activeImageSearch to another filter (only one enabled)', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+
+        imageSearchService.imageSearch(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://footwo');
+
+        imageSearchService.switchActive(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+    });
+
+
+    it('should switch the activeImageSearch to another filter (both enabled)', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+
+        imageSearchService.imageSearch(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://footwo');
+        imageSearchService.setImageSearchEnabled(imgUrl, true);
+
+        imageSearchService.switchActive(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+    });
+
+    it('should switch the activeImageSearch to another filter (both unenabled)', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+
+        imageSearchService.imageSearch(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://footwo');
+        imageSearchService.setImageSearchEnabled(imgUrlII, false);
+
+        imageSearchService.switchActive(imgUrlII);
+        expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
+    });
+
+    it('should return the number of filters in imageSearchResults', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        expect(imageSearchService.getImageSearchResultsLength()).toBe(1);
+
+        imageSearchService.imageSearch(imgUrlII);
+        expect(imageSearchService.getImageSearchResultsLength()).toBe(2);
+    });
+
+    it('should return the imageSearchresults object associated with the passed in url', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        imageSearchService.imageSearch(imgUrlII);
+
+        expect(imageSearchService.getSpecificImageSearchResults(imgUrl).url).toBe('http://foo');
+        expect(imageSearchService.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
+    });
+
+    it('should clear the imageSearchresults object associated with the passed in url', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        imageSearchService.imageSearch(imgUrlII);
+
+        expect(imageSearchService.getSpecificImageSearchResults(imgUrl).url).toBe('http://foo');
+        expect(imageSearchService.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
+
+        imageSearchService.clearSpecificImageSearch(imgUrl);
+        expect(imageSearchService.getImageSearchResultsLength()).toBe(1);
+        expect(imageSearchService.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
+
+    });    
 });

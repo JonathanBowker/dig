@@ -179,10 +179,6 @@ angular.module('digApp')
         return imageSearchService.isImageSearchEnabled(searchUrl);
     };
 
-    $scope.getImageSearchFilter = function(searchUrl) {
-        return imageSearchService.getImageSearchFilter(searchUrl);
-    };
-
     $scope.clearSearch = function() {
         $scope.queryString.live = '';
         $scope.submit();
@@ -202,7 +198,8 @@ angular.module('digApp')
         var  isEnabled = imageSearchService.isImageSearchEnabled(imgUrl);
         var getActive = imageSearchService.getActiveImageSearch();
         if (isEnabled == true && getActive.url != imgUrl) {
-            imageSearchService.toggleActiveImageSearch(imgUrl, true);
+            console.log("WENT THROUGH 1");
+            imageSearchService.setActiveImageSearch(imgUrl);
             $scope.searchConfig.filterByImage = true;
         }
         else if (isEnabled != true && getActive.url == imgUrl) {
@@ -211,14 +208,11 @@ angular.module('digApp')
                 if (Object.keys(imageSearchService.getImageSearchResults()).length > 1) {
                     for (var x in Urls) {//look for them              
                         if (imageSearchService.isImageSearchEnabled(Urls[x]) == true) {
-                            imageSearchService.toggleActiveImageSearch(Urls[x], true);
+                            imageSearchService.setActiveImageSearch(Urls[x]);
                             break;
                         }
                     }
                 }
-                else {
-                imageSearchService.setImageSearchEnabled(imgUrl, false);
-            }
         }
         else if (isEnabled != true && getActive.url != imgUrl) {
             imageSearchService.setImageSearchEnabled(imgUrl, false);
@@ -273,6 +267,7 @@ angular.module('digApp')
                    imageSearchService.clearSpecificImageSearch(imgUrl);
 
                 }, function(reason) {
+                    imageSearchService.clearSpecificImageSearch(imgUrl);
 
                 });
 
@@ -303,12 +298,6 @@ angular.module('digApp')
     };
 
     $scope.imageSearch = function(imgUrl) {
-        for (var x in $scope.deleteList) {
-            imageSearchService.clearSpecificImageSearch($scope.deleteList[x]);
-
-        }
-        $scope.deleteList = [];
-        $scope.displayImageBreadcrumb = true;
         imageSearchService.imageSearch(imgUrl);
 
     };

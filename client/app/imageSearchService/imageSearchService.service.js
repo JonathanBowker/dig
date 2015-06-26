@@ -46,13 +46,8 @@ angular.module('digApp')
         return activeImageSearch;
     };
 
-    service.toggleActiveImageSearch = function(imageUrl, flag) {
-    	if (flag) {
+    service.setActiveImageSearch = function(imageUrl) {
     	activeImageSearch = imageSearchResults[imageUrl];   
-    	}//end if
-    	if (!flag) {
-    	activeImageSearch = !imageSearchResults[imageUrl];   
-    	}//end else
     };
 
     service.clearActiveImageSearch = function() {
@@ -60,28 +55,18 @@ angular.module('digApp')
 
     };
 
-    service.checkImageSearch = function() {//for watch function that either turns filter on or off
-    	for (var arrayUrl in imageSearchResults) {
-    		if (imageSearchResults[arrayUrl].status == 'success') {//if any are active return true.
-    			return true;
-    		}
-    	}
-    	return false;
-    };
-
     service.enablePromise = function(imgUrl) {
             
             imageSearchResults[imgUrl].enabled = false;
-            console.log("Set to unenabled: " + imageSearchResults[imgUrl].enabled);
-            console.log("It went through enablePromise");
                 return $q(function(resolve, reject) {
-                                        setTimeout(function() {
-                    if (imageSearchResults[imgUrl].enabled == false) {
-                        resolve(true);
-                    }//end if
-                    else {
-                        reject(false);
-                    }//end else
+                    setTimeout(function() {
+                        if (imageSearchResults[imgUrl].enabled == false) {
+                            resolve(true);
+                            console.log("resolved TRUE");
+                        }//end if
+                        else {
+                            reject(false);
+                        }//end else
                     }, 0);
                 });
             };//end service   

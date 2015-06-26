@@ -971,27 +971,158 @@ describe('Controller: SearchCtrl', function () {
         expect(imageSearchService.isImageSearchEnabled('https://some.server/test.jpg')).toBe(false);
     });
 
-    it('should toggle the bool value of displayImageBreadcrumb', function() {
-        scope.toggleImageSearchEnabled('https://some.server/test.jpg', true);
-        expect(scope.displayImageBreadcrumb).toBe(true);
+    it('should return url when object enabled and return an empty string when object unenabled', function() {
+        var imgUrl = 'http://foo';
+        imageSearchService.imageSearch(imgUrl);
 
-        scope.toggleImageSearchEnabled('https://some.server/test.jpg');
-        expect(scope.displayImageBreadcrumb).toBe(false);
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        expect(scope.enableCheck(imgUrl)).toBe('');
+
+        imageSearchService.setImageSearchEnabled(imgUrl, true);
+        expect(scope.enableCheck(imgUrl)).toBe('http://foo');
     });
 
-    it('should set displayImageBreadcrumb to false if image sim filter is deleted or breadcrumb image is deleted', function() {
-        scope.clearActiveImageSearch();
-        expect(scope.displayImageBreadcrumb).toBe(false);
+    it('should return url when object enabled and return an empty string when object unenabled', function() {
+        var imgUrl = 'http://foo';
+
+        imageSearchService.imageSearch(imgUrl);
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        expect(scope.enableCheck(imgUrl)).toBe('');
+
+        imageSearchService.setImageSearchEnabled(imgUrl, true);
+        expect(scope.enableCheck(imgUrl)).toBe('http://foo');
     });
 
-    it('should set the bool value of displayImageBreadcrumb to true', function() {
-        scope.imageSearch('https://some.server/test.jpg');
-        expect(scope.displayImageBreadcrumb).toBe(true);
+    it('should toggle searchConfig.filterByImage and switch ActiveImageSearch when necessary', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+
+        imageSearchService.imageSearch(imgUrl);
+        imageSearchService.imageSearch(imgUrlII);
+        imageSearchService.setImageSearchEnabled(imgUrl, true);
+
+        scope.toggleActiveImageSearch(imgUrl);//first, if
+
+        expect(scope.searchConfig.filterByImage).toBe(true);
+        expect(scope.getActiveImageSearch().url).toBe('http://foo');
+
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        imageSearchService.setActiveImageSearch(imgUrl);
+        imageSearchService.setImageSearchEnabled(imgUrlII, true);
+
+        scope.toggleActiveImageSearch(imgUrl);//second, elseif when another enabled is present.
+
+        expect(scope.getActiveImageSearch().url).toBe('http://footwo');
+
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        imageSearchService.setActiveImageSearch(imgUrl);
+        imageSearchService.setImageSearchEnabled(imgUrlII, false);
+
+        scope.toggleActiveImageSearch(imgUrl);//second, elseif when another enabled is not present.
+
+        expect(scope.getActiveImageSearch().url).toBe('http://foo');
+
+
+        imageSearchService.setImageSearchEnabled(imgUrl, false);
+        imageSearchService.setActiveImageSearch(imgUrlII);
+
+        scope.toggleActiveImageSearch(imgUrl);//third, elseif
+
+        expect(scope.isImageSearchEnabled(imgUrl)).toBe(false);
+
+
+        imageSearchService.setImageSearchEnabled(imgUrl, true);
+        imageSearchService.setActiveImageSearch(imgUrl);
+
+        scope.toggleActiveImageSearch(imgUrl);//fourth, elseif
+
+        expect(scope.isImageSearchEnabled(imgUrl)).toBe(true);
+
     });
 
-    it('should set displayImageBreadcrumb as false when imageSearchService.getActiveImageSearch does not return success', function() {
-        expect(imageSearchService.getImageSearchStatus('http://foo')).toBe('no search available');
-        expect(scope.displayImageBreadcrumb).toBe(false);
+    it('should clear filter in imageSearchResults associated with the passed in url', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+        imageSearchService.imageSearch(imgUrlII);
+
+        scope.clearSpecificImageSearch(imgUrlII);
+        expect(imageSearchService.getImageSearchResultsLength()).toBe(1);
+        expect(scope.getSpecificImageSearchResults(imgUrl).url).toBe('http://foo');
     });
+
+    it('should get filter in imageSearchResults associated with the passed in url', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+        imageSearchService.imageSearch(imgUrlII);
+
+        expect(scope.getSpecificImageSearchResults(imgUrl).url).toBe('http://foo');
+        expect(scope.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
+    });
+
+    it('should get array of filter urls in imageSearchResults', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+        imageSearchService.imageSearch(imgUrlII);
+
+        var urlArray = scope.getImageSearchResultsUrls();
+        expect(urlArray[0]).toBe('http://foo');
+        expect(urlArray[1]).toBe('http://footwo');
+    });
+
+    it('should clear the filter in imageSearchResults associated with the passed in url', function() {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+        imageSearchService.imageSearch(imgUrlII);
+
+        imageSearchService.setActiveImageSearch(imgUrlII);
+        scope.clearImageSearch(imgUrlII);//when length > 1 and cleared is active
+
+        expect(scope.getActiveImageSearch().url).toBe('http://foo');
+        //expect(imageSearchService.getImageSearchResultsLength()).toBe(2);
+        expect(scope.getSpecificImageSearchResults(imgUrl).url).toBe('http://foo');
+
+
+
+        imageSearchService.imageSearch(imgUrlII);
+
+        imageSearchService.setActiveImageSearch(imgUrlII);
+        scope.clearImageSearch(imgUrl);//when length > 1 and cleared is inactive
+
+        expect(scope.getActiveImageSearch().url).toBe('http://footwo');
+        //expect(imageSearchService.getImageSearchResultsLength()).toBe(2);
+        expect(scope.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
+
+
+
+        imageSearchService.setActiveImageSearch(imgUrlII);
+        scope.clearImageSearch(imgUrlII);//when length == 1 and cleared is active
+     //   testAsync(imgUrlII, done);
+        //expect(scope.getActiveImageSearch().url).toBe(null);
+     //   expect(imageSearchService.getImageSearchResultsLength()).toBe(0);
+        // done();
+    });
+
+    it('should get array of filter urls in imageSearchResults', function(done) {
+        var imgUrl = 'http://foo';
+        var imgUrlII = 'http://footwo';
+        imageSearchService.imageSearch(imgUrl);
+        imageSearchService.imageSearch(imgUrlII);
+        
+        imageSearchService.setActiveImageSearch(imgUrlII);
+
+        scope.clearImageSearch(imgUrl);
+        done();
+
+        expect(imageSearchService.getImageSearchResultsLength()).toBe(1);
+    });
+
 
 });
+
