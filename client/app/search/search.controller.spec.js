@@ -1108,7 +1108,7 @@ describe('Controller: SearchCtrl', function () {
      //   expect(imageSearchService.getImageSearchResultsLength()).toBe(0);
         // done();
     });
-
+/**
     it('should get array of filter urls in imageSearchResults', function(done) {
         var imgUrl = 'http://foo';
         var imgUrlII = 'http://footwo';
@@ -1122,7 +1122,7 @@ describe('Controller: SearchCtrl', function () {
 
         expect(imageSearchService.getImageSearchResultsLength()).toBe(1);
     });
-
+*/
 
 });
 
