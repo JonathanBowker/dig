@@ -11,7 +11,6 @@ angular.module('digApp')
             url: imgUrl,
             status: 'searching',
             enabled: false,
-            displayed: false,
         };
 
         // TODO: remove this if we switch to async image searches.
@@ -22,7 +21,6 @@ angular.module('digApp')
         .success(function() {
             imageSearchResults[imgUrl].status = 'success';
             imageSearchResults[imgUrl].enabled = true;
-            imageSearchResults[imgUrl].displayed = true;
 
         })
         .error(function(data) {
@@ -62,7 +60,6 @@ angular.module('digApp')
                     setTimeout(function() {
                         if (imageSearchResults[imgUrl].enabled == false) {
                             resolve(true);
-                            console.log("resolved TRUE");
                         }//end if
                         else {
                             reject(false);

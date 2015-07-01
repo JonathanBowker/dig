@@ -1085,7 +1085,6 @@ describe('Controller: SearchCtrl', function () {
         scope.clearImageSearch(imgUrlII);//when length > 1 and cleared is active
 
         expect(scope.getActiveImageSearch().url).toBe('http://foo');
-        //expect(imageSearchService.getImageSearchResultsLength()).toBe(2);
         expect(scope.getSpecificImageSearchResults(imgUrl).url).toBe('http://foo');
 
 
@@ -1096,33 +1095,8 @@ describe('Controller: SearchCtrl', function () {
         scope.clearImageSearch(imgUrl);//when length > 1 and cleared is inactive
 
         expect(scope.getActiveImageSearch().url).toBe('http://footwo');
-        //expect(imageSearchService.getImageSearchResultsLength()).toBe(2);
         expect(scope.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
-
-
-
-        imageSearchService.setActiveImageSearch(imgUrlII);
-        scope.clearImageSearch(imgUrlII);//when length == 1 and cleared is active
-     //   testAsync(imgUrlII, done);
-        //expect(scope.getActiveImageSearch().url).toBe(null);
-     //   expect(imageSearchService.getImageSearchResultsLength()).toBe(0);
-        // done();
     });
-/**
-    it('should get array of filter urls in imageSearchResults', function(done) {
-        var imgUrl = 'http://foo';
-        var imgUrlII = 'http://footwo';
-        imageSearchService.imageSearch(imgUrl);
-        imageSearchService.imageSearch(imgUrlII);
-        
-        imageSearchService.setActiveImageSearch(imgUrlII);
-
-        scope.clearImageSearch(imgUrl);
-        done();
-
-        expect(imageSearchService.getImageSearchResultsLength()).toBe(1);
-    });
-*/
 
 });
 

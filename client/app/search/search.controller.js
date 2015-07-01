@@ -198,7 +198,6 @@ angular.module('digApp')
         var  isEnabled = imageSearchService.isImageSearchEnabled(imgUrl);
         var getActive = imageSearchService.getActiveImageSearch();
         if (isEnabled == true && getActive.url != imgUrl) {
-            console.log("WENT THROUGH 1");
             imageSearchService.setActiveImageSearch(imgUrl);
             $scope.searchConfig.filterByImage = true;
         }
@@ -264,11 +263,9 @@ angular.module('digApp')
 
                 promise.then(function(value) {
 
-                   imageSearchService.clearSpecificImageSearch(imgUrl);
+                   $scope.clearSpecificImageSearch(imgUrl);
 
                 }, function(reason) {
-                    imageSearchService.clearSpecificImageSearch(imgUrl);
-
                 });
 
         }//end if
@@ -279,7 +276,7 @@ angular.module('digApp')
                 var promise = imageSearchService.enablePromise(imgUrl);
                 promise.then(function(value) {
 
-                   imageSearchService.clearSpecificImageSearch(imgUrl);
+                   $scope.clearSpecificImageSearch(imgUrl);
 
                 }, function(reason) {
                 });

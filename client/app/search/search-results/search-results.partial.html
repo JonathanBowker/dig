@@ -15,28 +15,16 @@
 
       <div ng-if="facets.simFilter" class="form-group" ng-show="getActiveImageSearch()">
         <h5><i class="fa fa-chevron-down fa-fw"></i> {{facets.simFilter.title}} <a href="#" class="pull-right" title="Search values"><i class="fa fa-search"></i></a></h5>
-       <!-- <div ng-repeat="displayImage in getImageSearchResultsUrls()">
-          {{displayImage}}
-       </div>-->
 
       <div ng-repeat="displayImageUrl in getImageSearchResultsUrls()">
-              {{displayImageUrl}}
-
-                  <div class="checkbox image-search-filter">
+          <div class="checkbox image-search-filter">
             <label>
-            Enabled:{{isImageSearchEnabled(displayImageUrl)}},
-            Active:{{getActiveImageSearch().enabled}},
-            SearchConfig: {{ searchConfig.filterByImage  }}
- 
               <input type="checkbox" 
-
                 ng-model="getSpecificImageSearchResults(displayImageUrl).enabled"
-                
                 eui-filter="ejs.TermsFilter(facets.simFilter.field, enableCheck(displayImageUrl))"
                 eui-enabled="searchConfig.filterByImage"
                 ng-change="toggleActiveImageSearch(displayImageUrl)"
-                >
-                 
+                >                 
             </label>
             <img blurred-image ng-src="{{displayImageUrl}}" class="image-thumb">
             <a href="#" ng-click="clearImageSearch(displayImageUrl)" class="text-danger">

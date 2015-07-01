@@ -10,19 +10,24 @@ describe('Service: imageSearchService', function () {
     var imageSearchService;
     var $httpBackend;
     var imageSearchRequest;
+    var $q, $timeout;
 
     beforeEach(function() {
         module(function($provide) {
             $provide.constant('simHost', simHost);
         });
 
-        inject(function(_imageSearchService_, _$httpBackend_) {
+        inject(function(_imageSearchService_, _$httpBackend_,_$q_, _$timeout_) {
             imageSearchService = _imageSearchService_;
             $httpBackend = _$httpBackend_;
-
+            $q = _$q_;
+            $timeout = _$timeout_;
             imageSearchRequest = $httpBackend.when('GET', new RegExp(simHost + '/ds/similar/images\\?uri=*'))
                 .respond(200, {some: 'json'});
+
         });
+
+
     });
 
     it('should do something', function () {
@@ -168,27 +173,6 @@ describe('Service: imageSearchService', function () {
         expect(imageSearchService.getActiveImageSearch().url).toBe('http://foo');
     });
 
-
-    // it('should resolve true if the enabled field is set to false', function() {
-    //     var imgUrl = 'http://foo';
-    //     var testFlag = false;
-    //     imageSearchService.imageSearch(imgUrl);
-
-    //        var promise = imageSearchService.enablePromise(imgUrl);
-
-    //             promise.then(function(value) {
-    //                testFlag = true;
-    //                console.log("WAS SWITCHED");
-
-    //             }, function(reason) {
-    //                console.log("WAS NOT SWITCHED");
-    //                                testFlag = true;
-
-    //             });
-    //     expect(testFlag).toBe(true);
-        
-    // });
-
     it('should switch the activeImageSearch to another filter (only one enabled)', function() {
         var imgUrl = 'http://foo';
         var imgUrlII = 'http://footwo';
@@ -276,4 +260,22 @@ describe('Service: imageSearchService', function () {
         expect(imageSearchService.getSpecificImageSearchResults(imgUrlII).url).toBe('http://footwo');
 
     });    
+
+
+    it('should resolve true if the enabled field is set to false', function() {
+
+        var imgUrl = 'http://foo';
+
+        imageSearchService.imageSearch(imgUrl);
+
+        var promise = imageSearchService.enablePromise(imgUrl);
+
+        promise.then(function() {
+
+            expect(imageSearchService.getImageSearchResults()[imgUrl].enabled).toBe(false);
+
+        });
+
+    });
+
 });
