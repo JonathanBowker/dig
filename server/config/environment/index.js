@@ -12,6 +12,10 @@ function requiredProcessEnv(name) {
     return process.env[name];
 }
 
+function getEuiConfigFile() {
+    return process.env.EUI_CONFIG_FILE || path.resolve(__dirname + '/../mockadsConfig.json');
+}
+
 // All configurations will extend these options
 // ============================================
 var all = {
@@ -50,7 +54,7 @@ var all = {
     euiServerPort: process.env.EUI_SERVER_PORT || 9200,
     dbServerUser: process.env.DB_SERVER_USER,
     dbServerPass: process.env.DB_SERVER_PASS,
-    euiSearchIndex: process.env.EUI_SEARCH_INDEX || 'dig-latest',
+    euiSearchIndex: process.env.EUI_SEARCH_INDEX || 'mockads',
     euiSearchType: process.env.EUI_SEARCH_TYPE || 'WebPage',
 
     imageSimUrl: process.env.IMAGE_SIM_URL || 'http://localhost',
@@ -58,7 +62,9 @@ var all = {
 
     blurImages: ((!!process.env.BLUR_IMAGES && process.env.BLUR_IMAGES === 'false') ? false : true),
     blurPercentage: process.env.BLUR_PERCENT || 2.5,
-    euiConfigs: JSON.parse(fs.readFileSync(process.env.EUI_CONFIG_FILE, 'utf8'))
+    euiConfigs: JSON.parse(fs.readFileSync(getEuiConfigFile(), 'utf8'))
+
+
 };
 
 // Export the config object based on the NODE_ENV

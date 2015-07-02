@@ -53,8 +53,9 @@ Various application parameters can be configured via environment variables - the
 | PORT | 9000 | The port on which the application listens for browser requests |
 | EUI_SERVER_URL | 'http://localhost' | The base URL at which [Elasticsearch] can be found |
 | EUI_SERVER_PORT | 9200 | The port on which to connect to [Elasticsearch] |
-| EUI_SEARCH_INDEX | 'dig-latest' | The name of the [Elasticsearch] index |
+| EUI_SEARCH_INDEX | 'mockads' | The name of the [Elasticsearch] index |
 | EUI_SEARCH_TYPE | 'WebPage' | The ElasticSearch document type |
+| EUI_CONFIG_FILE | 'mockadsConfig.json' | The [ElasticSearch] mapping for the index used |
 | BLUR_IMAGES | 'true' | Determines whether images linked to the [Elasticsearch] data are blurred in the user interface |
 | BLUR_PERCENT | 2.5 | The amount of image blurring |
 | DB_USER |  | user used by application to connect to DB| (leave blank for dev/sqlite)
