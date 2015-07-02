@@ -54,8 +54,8 @@ Various application parameters can be configured via environment variables - the
 | EUI_SERVER_URL | 'http://localhost' | The base URL at which [Elasticsearch] can be found |
 | EUI_SERVER_PORT | 9200 | The port on which to connect to [Elasticsearch] |
 | EUI_SEARCH_INDEX | 'mockads' | The name of the [Elasticsearch] index |
-| EUI_SEARCH_TYPE | 'WebPage' | The ElasticSearch document type |
-| EUI_CONFIG_FILE | 'mockadsConfig.json' | The [ElasticSearch] mapping for the index used |
+| EUI_SEARCH_TYPE | 'ad' | The ElasticSearch document type |
+| EUI_CONFIG_FILE | 'mockadsConfig.json' | The absolute file path for a JSON file representing the UI for the [Elasticsearch] index used |
 | BLUR_IMAGES | 'true' | Determines whether images linked to the [Elasticsearch] data are blurred in the user interface |
 | BLUR_PERCENT | 2.5 | The amount of image blurring |
 | DB_USER |  | user used by application to connect to DB| (leave blank for dev/sqlite)
@@ -101,7 +101,7 @@ The application is currently configured to use an internal Elasticsearch service
 
 The dig user interface is built from a series of templates that define the primary search forms,
 the listing view, the details view, etc.  To allow for quick reconfiguration and begin decoupling the templates from the underlying data store, templates reference a configuration parameter passed from
-the server.   This parameter, **euiConfigs**, contains descriptions of the search controls, facets, and
+the server.   This parameter, **euiConfigs**, is read in via the EUI_CONFIG_FILE environment variable and contains descriptions of the search controls, facets, and
 data fields that should be displayed for a particular dataset.  At present, a dataset corresponds
 to the Elasticsearch index used to pull data from an Elasticsearch service.  The following sections describe the major elements of this configuration object.
 

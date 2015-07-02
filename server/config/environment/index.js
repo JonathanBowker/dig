@@ -55,7 +55,7 @@ var all = {
     dbServerUser: process.env.DB_SERVER_USER,
     dbServerPass: process.env.DB_SERVER_PASS,
     euiSearchIndex: process.env.EUI_SEARCH_INDEX || 'mockads',
-    euiSearchType: process.env.EUI_SEARCH_TYPE || 'WebPage',
+    euiSearchType: process.env.EUI_SEARCH_TYPE || 'ad',
 
     imageSimUrl: process.env.IMAGE_SIM_URL || 'http://localhost',
     imageSimPort: process.env.IMAGE_SIM_PORT || 3001,
