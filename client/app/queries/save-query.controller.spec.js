@@ -26,7 +26,7 @@ describe('Controller: SaveQueryCtrl', function () {
                     }
                 },
                 'dateFilters': {
-                    'dateCreated': {
+                    'dateMostLikelyCreated': {
                         'beginDate': null,
                         'endDate': null
                     }
@@ -87,7 +87,7 @@ describe('Controller: SaveQueryCtrl', function () {
                     }
                 },
                 'dateFilters': {
-                    'dateCreated': {
+                    'dateMostLikelyCreated': {
                         'beginDate': '2013-02-02T05:00:00.000Z',
                         'endDate': '2015-02-03T05:00:00.000Z'
                     }
@@ -114,14 +114,14 @@ describe('Controller: SaveQueryCtrl', function () {
                     'must': [
                         {
                             'range': {
-                                'dateCreated': {
+                                'dateMostLikelyCreated': {
                                     'from':'2013-02-02'
                                 }
                             }
                         },
                         {
                             'range': {
-                                'dateCreated': {
+                                'dateMostLikelyCreated': {
                                     'to':'2015-02-03'
                                 }
                             }

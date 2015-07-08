@@ -25,7 +25,7 @@ describe('Controller: NotificationsCtrl', function () {
             }
           },
           'dateFilters': {
-            'dateCreated': {
+            'dateMostLikelyCreated': {
               'beginDate': null,
               'endDate': null
             }
@@ -48,7 +48,7 @@ describe('Controller: NotificationsCtrl', function () {
             }
           },
           'dateFilters': {
-            'dateCreated': {
+            'dateMostLikelyCreated': {
               'beginDate': '2013-02-02T05:00:00.000Z',
               'endDate': '2015-02-03T05:00:00.000Z'
             }

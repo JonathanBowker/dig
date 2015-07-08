@@ -33,11 +33,11 @@ describe('Directive: sort', function () {
                             order: 'desc',
                             title: 'Best Match'
                         },{
-                            field: 'dateCreated',
+                            field: 'dateMostLikelyCreated',
                             order: 'desc',
                             title: 'Newest First'
                         },{
-                            field: 'dateCreated',
+                            field: 'dateMostLikelyCreated',
                             order: 'asc',
                             title: 'Oldest First'
                         }, {
@@ -73,7 +73,7 @@ describe('Directive: sort', function () {
 
     it('should initialize title, order, and field if already present', function () {
 
-        scope.selectedSort = {field: 'dateCreated', order: 'asc', title: 'Oldest First'};
+        scope.selectedSort = {field: 'dateMostLikelyCreated', order: 'asc', title: 'Oldest First'};
 
         inject(function ($compile) {
             element = angular.element('<sort indexvm="indexVM" ejs="ejs" eui-configs="euiConfigs" ' +

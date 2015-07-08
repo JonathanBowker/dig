@@ -37,7 +37,7 @@ describe('Directive: dateHistogramAggregation', function () {
     scope.$digest();
 
     element = angular.element('<date-histogram-aggregation aggregation-name=\"date_hist_agg\" ' +
-      'aggregation-key=\"dateCreated\" date-interval=\"month\" indexvm=\"indexVM\" ejs=\"ejs\" ' +
+      'aggregation-key=\"dateMostLikelyCreated\" date-interval=\"month\" indexvm=\"indexVM\" ejs=\"ejs\" ' +
       'filters=\"filters\"></date-histogram-aggregation>');
     $compile(element)(scope);
     element.scope().$digest();

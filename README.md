@@ -157,10 +157,10 @@ angular expressions to decorate the values before display.  Examples:
 ``` javascript
 field: "doc.name"
 field: "doc.some_primary_value || doc.some_alternate_value"
-field: "doc._source.dateCreated | date:'MM/dd/yyyy HH:mm:ss UTC'"
+field: "doc._source.dateMostLikelyCreated | date:'MM/dd/yyyy HH:mm:ss UTC'"
 ```
 
-> By convention, controls that impact an entire result set refer to document fields simply by their name (e.g., name, dateCreate, color).  Controls or display fields that are shown for each document in a result set refer to document fields as sub-elements of a 'doc'.  (e.g., doc.name, doc.dateCreated, doc.color). Facets, sorting, and highlights use the former style while listingFields and detailsFields use the latter.
+> By convention, controls that impact an entire result set refer to document fields simply by their name (e.g., name, dateCreate, color).  Controls or display fields that are shown for each document in a result set refer to document fields as sub-elements of a 'doc'.  (e.g., doc.name, doc.dateMostLikelyCreated, doc.color). Facets, sorting, and highlights use the former style while listingFields and detailsFields use the latter.
 
 #### Facets
 
@@ -210,7 +210,7 @@ sort: {
 }
 ```
 
-**sort** defines the parameters of the sort control on the [DIG] UI.  It defineds the document field, default sorting option and available sorting options.  These are mapped to [Elasticsearch] sort orders.  To change the sorting field, use the example above and simply change the *field* value to the desired document field (e.g., dateCreated, name).
+**sort** defines the parameters of the sort control on the [DIG] UI.  It defineds the document field, default sorting option and available sorting options.  These are mapped to [Elasticsearch] sort orders.  To change the sorting field, use the example above and simply change the *field* value to the desired document field (e.g., dateMostLikelyCreated, name).
 
 #### Listing View Fields
 

@@ -21,7 +21,7 @@ describe('Controller: SearchResultsCtrl', function () {
                 "a": "WebPageElement",
                 "uri": "http://some.server/AAAAA/BBBBB/processed/body"
             },
-            "dateCreated": "2015-01-01T00:00:00",
+            "dateMostLikelyCreated": "2015-01-01T00:00:00",
             "hasFeatureCollection": {
                 "a": "FeatureCollection",
                 "uri": "http://some.server/AAAAA/BBBBB/processed/featurecollection",
@@ -132,7 +132,7 @@ describe('Controller: SearchResultsCtrl', function () {
                 "a": "WebPageElement",
                 "uri": "http://some.server/AAAAA/BBBBB/processed/body"
             },
-            "dateCreated": "2015-01-01T00:00:00",
+            "dateMostLikelyCreated": "2015-01-01T00:00:00",
             "hasFeatureCollection": {
                 "a": "FeatureCollection",
                 "uri": "http://some.server/AAAAA/BBBBB/processed/featurecollection",

@@ -16,7 +16,7 @@ describe('Query Model', function() {
         name: 'test query',
         digState: {
             searchTerms: 'another users query',
-            filters: {"textFilters":{"phonenumber":{"live":"","submitted":""}},"dateFilters":{"dateCreated":{"beginDate":null,"endDate":null}}},
+            filters: {"textFilters":{"phonenumber":{"live":"","submitted":""}},"dateFilters":{"dateMostLikelyCreated":{"beginDate":null,"endDate":null}}},
             selectedSort: {"title":"Best Match","order":"rank"},
             includeMissing: {'aggregations': {}, 'allIncludeMissing': false}
         },
