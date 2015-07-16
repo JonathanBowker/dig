@@ -16,6 +16,9 @@
             <span ng-if="doc._source.hasImagePart">
               <img blurred-image ng-src="{{getDisplayImageSrc(doc)}}" class="image-thumb center-block">
             </span> 
+            <span ng-if="doc._source.author_name_histogram">
+              <sparkline data="doc._source.author_name_histogram" graph-type="line"></sparkline>
+            </span>
           </div>
           <div class="col-xs-7 col-sm-8 col-lg-9">
             <short-listing doc="doc"></short-listing>
