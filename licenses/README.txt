@@ -10,6 +10,13 @@ LICENSES:
 - OFL-1.1 - ofl.txt
 - MIT - mit.txt
 
+DIG dependencies
+===============================================================
+- node.js [license: MIT + bundled with other componenets]
+    - see node specific license at node-license.txt
+- yeoman [license: BSD-2-Clause]
+- bower [license: MIT]
+
 package.json dependencies 
 (generated with npm's nlf package (which uses the MIT 
 license) + manual edits
